@@ -1,0 +1,11 @@
+
+# run choco install jq make sure it exists in PS if you are windows powershell user.
+aws ec2 create-key-pair --key-name "dev-ap-south1-20241217" --no-verify-ssl --region ap-south-1 | jq -r ".KeyMaterial" > dev-ap-south1-20241217.pem
+
+aws secretsmanager create-secret --name dev-ap-south1-20241217 --secret-string file://dev-ap-south1-20241217.pem --no-verify-ssl --region ap-south-1
+
+aws secretsmanager get-secret-value --secret-id dev-ap-south1-20241217 --region ap-south-1
+
+
+#Update secret
+aws secretsmanager put-secret-value --secret-id dev-ap-south1-20241217 --secret-string file://dev-ap-south1-20241217.pem --no-verify-ssl --region ap-south-1
